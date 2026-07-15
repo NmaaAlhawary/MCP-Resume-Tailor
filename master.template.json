@@ -1,0 +1,63 @@
+{
+  "contact": {
+    "name": "Jane Developer",
+    "email": "jane@example.com",
+    "phone": "+1 555 0100",
+    "location": "Amman, Jordan",
+    "links": {
+      "github": "github.com/janedev",
+      "linkedin": "linkedin.com/in/janedev",
+      "portfolio": "janedev.io"
+    }
+  },
+  "summary": "Full-stack developer with 4+ years building web applications. Strong in React, TypeScript, and Python REST APIs, with a focus on performance and clean UX.",
+  "experience": [
+    {
+      "title": "Software Engineer",
+      "company": "Acme Corp",
+      "location": "Remote",
+      "start": "2023",
+      "end": "Present",
+      "bullets": [
+        "Built and shipped a React + TypeScript dashboard used by 10k monthly users.",
+        "Designed REST APIs in Python (FastAPI) and reduced p95 latency by 40%.",
+        "Set up CI/CD with GitHub Actions and containerized services with Docker."
+      ]
+    },
+    {
+      "title": "Junior Developer",
+      "company": "Startup XYZ",
+      "location": "Amman, JO",
+      "start": "2021",
+      "end": "2023",
+      "bullets": [
+        "Implemented responsive UIs and improved Lighthouse scores from 62 to 95.",
+        "Wrote unit tests with Jest, raising coverage from 30% to 80%."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Portfolio WebGL Site",
+      "description": "Cinematic 3D portfolio with scroll-driven animations.",
+      "tech": ["React", "Three.js", "GSAP"],
+      "link": "github.com/janedev/portfolio"
+    }
+  ],
+  "skills": [
+    { "category": "Languages", "items": ["Python", "TypeScript", "JavaScript", "SQL"] },
+    { "category": "Frontend", "items": ["React", "Next.js", "Tailwind CSS"] },
+    { "category": "Backend", "items": ["FastAPI", "Node.js", "REST APIs", "PostgreSQL"] },
+    { "category": "DevOps", "items": ["Docker", "GitHub Actions", "AWS"] }
+  ],
+  "education": [
+    {
+      "degree": "BSc Computer Science",
+      "school": "Al-Hussein Technical University",
+      "location": "Amman, JO",
+      "start": "2018",
+      "end": "2022",
+      "details": "Graduated with honors. Focus on web systems and databases."
+    }
+  ]
+}
