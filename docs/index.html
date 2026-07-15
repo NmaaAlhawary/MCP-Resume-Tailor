@@ -113,17 +113,23 @@
   </div>
   <div class="cards">
     <article class="card reveal">
-      <div class="card-ic ic-store"></div>
+      <div class="card-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+      </div>
       <h3>Persistent master CV</h3>
       <p>Store your base résumé once as structured JSON. It survives between sessions and powers every future tailoring — no re-pasting.</p>
     </article>
     <article class="card reveal" style="--d:.08s">
-      <div class="card-ic ic-score"></div>
+      <div class="card-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12.5" y="8" width="3" height="10" rx="1"/><rect x="18" y="5" width="3" height="13" rx="1"/></svg>
+      </div>
       <h3>Real ATS gap score</h3>
       <p>Deterministic keyword math — not vibes. See your match %, and the exact keywords you're missing so the rewrite is targeted.</p>
     </article>
     <article class="card reveal" style="--d:.16s">
-      <div class="card-ic ic-export"></div>
+      <div class="card-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v5h5"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M9 15h6"/><path d="M12 12v6"/><path d="m9.5 15.5 2.5-3 2.5 3"/></svg>
+      </div>
       <h3>ATS-safe export</h3>
       <p>Single-column PDF / DOCX with real, selectable text and standard fonts — the layout ATS parsers actually read correctly.</p>
     </article>
@@ -157,34 +163,44 @@
   <div class="flow">
     <div class="flow-rail" aria-hidden="true"></div>
     <div class="step reveal">
-      <div class="step-top"><span class="step-n">1</span>
+      <div class="step-top">
+        <span class="step-n">1</span>
+        <h4>Load</h4>
         <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></svg>
       </div>
-      <h4>Load</h4><p><code>load_master_resume</code> pulls your stored CV.</p>
+      <p><code>load_master_resume</code> pulls your stored CV.</p>
     </div>
     <div class="step reveal" style="--d:.06s">
-      <div class="step-top"><span class="step-n">2</span>
+      <div class="step-top">
+        <span class="step-n">2</span>
+        <h4>Analyze</h4>
         <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       </div>
-      <h4>Analyze</h4><p><code>fetch_job_posting</code> → <code>extract_keywords</code>.</p>
+      <p><code>fetch_job_posting</code> → <code>extract_keywords</code>.</p>
     </div>
     <div class="step reveal" style="--d:.12s">
-      <div class="step-top"><span class="step-n">3</span>
+      <div class="step-top">
+        <span class="step-n">3</span>
+        <h4>Rewrite</h4>
         <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
       </div>
-      <h4>Rewrite</h4><p><em>Claude</em> rewrites to surface real, matching skills.</p>
+      <p><em>Claude</em> rewrites to surface real, matching skills.</p>
     </div>
     <div class="step reveal" style="--d:.18s">
-      <div class="step-top"><span class="step-n">4</span>
+      <div class="step-top">
+        <span class="step-n">4</span>
+        <h4>Check</h4>
         <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg>
       </div>
-      <h4>Check</h4><p><code>ats_gap_check</code> confirms the score jumped.</p>
+      <p><code>ats_gap_check</code> confirms the score jumped.</p>
     </div>
     <div class="step reveal" style="--d:.24s">
-      <div class="step-top"><span class="step-n">5</span>
+      <div class="step-top">
+        <span class="step-n">5</span>
+        <h4>Export</h4>
         <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v5h5"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
       </div>
-      <h4>Export</h4><p><code>export_resume</code> → a clean PDF or DOCX.</p>
+      <p><code>export_resume</code> → a clean PDF or DOCX.</p>
     </div>
   </div>
 </section>
