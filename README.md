@@ -8,6 +8,7 @@ An open-source **[Model Context Protocol](https://modelcontextprotocol.io)** ser
 Claude Desktop (or any MCP client) a persistent master résumé, a real ATS keyword score,
 and clean PDF / DOCX export.
 
+[![Website](https://img.shields.io/badge/website-live-6E56CF?logo=githubpages&logoColor=white)](https://nmaaalhawary.github.io/MCP-Resume-Tailor/)
 [![CI](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/actions/workflows/ci.yml/badge.svg)](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
@@ -15,6 +16,8 @@ and clean PDF / DOCX export.
 [![Release](https://img.shields.io/github/v/release/NmaaAlhawary/MCP-Resume-Tailor?color=3fb950)](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Built for Claude](https://img.shields.io/badge/built%20for-Claude-D97757)](https://claude.ai)
+
+### [🌐 View the live site →](https://nmaaalhawary.github.io/MCP-Resume-Tailor/)
 
 **[Quick start](#installation)** · **[Tools](#tools)** · **[How it works](#how-it-works)** · **[Contributing](#contributing)** · **[Releases](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/releases)**
 
