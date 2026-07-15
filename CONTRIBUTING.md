@@ -132,6 +132,7 @@ git push origin main
 ## Code of conduct
 
 Be kind and constructive. We're all here to build something useful together. 💛
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
 Questions? Open an [issue](https://github.com/NmaaAlhawary/MCP-Resume-Tailor-/issues)
 and ask — no question is too small.
