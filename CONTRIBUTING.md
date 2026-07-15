@@ -1,6 +1,6 @@
 # Contributing to Resume-Tailor MCP
 
-Thanks for your interest in improving this project! 🎉 Contributions of every
+Thanks for your interest in improving this project! Contributions of every
 size are welcome — bug fixes, new skill keywords, better export layouts, docs,
 or entirely new tools.
 
@@ -131,7 +131,7 @@ git push origin main
 
 ## Code of conduct
 
-Be kind and constructive. We're all here to build something useful together. 💛
+Be kind and constructive. We're all here to build something useful together.
 This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
 Questions? Open an [issue](https://github.com/NmaaAlhawary/MCP-Resume-Tailor-/issues)

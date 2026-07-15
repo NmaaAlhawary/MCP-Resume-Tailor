@@ -4,12 +4,12 @@
 
 ## Type of change
 
-- [ ] 🐛 Bug fix
-- [ ] ✨ New feature (new tool, new keywords, etc.)
-- [ ] 📊 Keyword/ATS improvement (`KNOWN_TERMS` / `KNOWN_PHRASES` / `STOPLIST`)
-- [ ] 🖨️ Export layout improvement
-- [ ] 📝 Documentation
-- [ ] 🧹 Refactor / cleanup
+- [ ] Bug fix
+- [ ] New feature (new tool, new keywords, etc.)
+- [ ] Keyword/ATS improvement (`KNOWN_TERMS` / `KNOWN_PHRASES` / `STOPLIST`)
+- [ ] Export layout improvement
+- [ ] Documentation
+- [ ] Refactor / cleanup
 
 ## How was this tested?
 

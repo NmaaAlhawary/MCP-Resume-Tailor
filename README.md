@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📄 Resume-Tailor MCP
+# Resume-Tailor MCP
 
 ### Tailor your CV to any job — automatically, from your AI chat.
 
@@ -41,11 +41,11 @@ and clean PDF / DOCX export.
 Claude can already rewrite a CV in a normal chat. This MCP is worth installing for
 the three things a plain chat **can't** do:
 
-| | Feature | What it gives you |
-|---|---|---|
-| 🗂️ | **Persistent master CV** | Stored locally as JSON. Set it up once, reuse it for every job. |
-| 📊 | **Real ATS gap score** | Deterministic keyword math — not vibes. Tells you *exactly* which keywords you're missing. |
-| 🖨️ | **Clean file export** | ATS-safe PDF / DOCX: single column, standard fonts, real selectable text. |
+| Feature | What it gives you |
+|---|---|
+| **Persistent master CV** | Stored locally as JSON. Set it up once, reuse it for every job. |
+| **Real ATS gap score** | Deterministic keyword math — not vibes. Tells you *exactly* which keywords you're missing. |
+| **Clean file export** | ATS-safe PDF / DOCX: single column, standard fonts, real selectable text. |
 
 > [!IMPORTANT]
 > **The MCP does not rewrite your CV — Claude does that.** The server supplies the
@@ -117,7 +117,7 @@ Add this to your `claude_desktop_config.json`
 }
 ```
 
-Restart Claude Desktop — the six tools appear under the 🔌 menu.
+Restart Claude Desktop — the six tools appear under the tools menu.
 
 ## Usage
 
@@ -144,7 +144,7 @@ Behind the scenes Claude runs:
 4. ats_gap_check(resume_text, keywords)          → { match_score: 20.0,
                                                      missing: ["GraphQL","Docker","AWS",…] }
 5. ── Claude rewrites the CV to surface real, matching skills ──
-6. ats_gap_check(new_resume_text, keywords)      → { match_score: 85.0 }  ✅
+6. ats_gap_check(new_resume_text, keywords)      → { match_score: 85.0 }
 7. export_resume(content=<rewritten>, format="pdf")
                                                  → { path: "~/.resume-mcp/exports/…​.pdf" }
 ```
@@ -163,14 +163,14 @@ Everything runs **locally**. No secrets, no external accounts.
 
 ## ATS-safe export
 
-- ✅ Single column — no text boxes or multi-column tricks that break ATS parsers
-- ✅ Standard fonts (Calibri / Helvetica)
-- ✅ Real, selectable text — never image-rendered
-- ✅ Plain headings and bullet lists that map cleanly to résumé sections
+- Single column — no text boxes or multi-column tricks that break ATS parsers
+- Standard fonts (Calibri / Helvetica)
+- Real, selectable text — never image-rendered
+- Plain headings and bullet lists that map cleanly to résumé sections
 
 ## Contributing
 
-Contributions of any size are welcome! 🎉 The quickest way in: **fork** the repo,
+Contributions of any size are welcome. The quickest way in: **fork** the repo,
 make your change, and open a pull request.
 
 ```bash
@@ -201,6 +201,6 @@ contributions are licensed under the same terms.
 
 <div align="center">
 
-**Built with ☕ by [Nmaa Hawary](https://github.com/NmaaAlhawary)** · If this helped, consider giving it a ⭐
+**Built by [Nmaa Hawary](https://github.com/NmaaAlhawary)** · If this helped, consider giving it a star.
 
 </div>
