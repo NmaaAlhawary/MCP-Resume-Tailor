@@ -116,11 +116,13 @@ code,pre{font-family:"JetBrains Mono",monospace}
   -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.3s}
 .card:hover{transform:translateY(-6px)}
 .card:hover::before{opacity:.7}
-.card-ic{width:52px;height:52px;border-radius:14px;margin-bottom:20px;background:var(--grad);position:relative;
+.card-head{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.card-ic{flex:none;width:52px;height:52px;border-radius:14px;background:var(--grad);position:relative;
   display:flex;align-items:center;justify-content:center;color:#fff}
 .card-ic svg{width:26px;height:26px}
 .card-ic::after{content:"";position:absolute;inset:0;border-radius:14px;filter:blur(16px);background:var(--grad);opacity:.55;z-index:-1;transition:.3s}
 .card:hover .card-ic::after{opacity:.85}
+.card-head h3{margin:0;font-size:1.2rem;line-height:1.2}
 .card h3{font-size:1.25rem;margin-bottom:10px}
 .card p{color:var(--muted);font-size:.96rem}
 
