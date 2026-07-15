@@ -74,21 +74,22 @@ Some good first contributions and where to make them, all in `server.py`:
 
 ## 6. Test your change
 
-Run a quick end-to-end check of the tools you touched. For example, to verify
-keyword extraction on a sample job description:
+Run the test suite (isolated temp store, touches nothing real):
 
 ```bash
-python - <<'PY'
-import os, tempfile
-os.environ["RESUME_STORE_PATH"] = os.path.join(tempfile.mkdtemp(), "master.json")
-import server as s
-job = "Requirements:\n- Experience with Rust, Terraform, and Kubernetes."
-print(s.extract_keywords(job)["keywords"])
-PY
+pip install -r requirements-dev.txt
+pytest
 ```
 
-If you added a keyword, confirm it appears. If you touched export, confirm the
-file opens and the text is selectable (ATS-safe).
+Or see the whole flow with sample data end-to-end:
+
+```bash
+python demo.py
+```
+
+If you added a keyword, confirm it appears (add an assertion in
+`tests/test_tools.py`). If you touched export, confirm the file opens and the
+text is selectable (ATS-safe).
 
 ## 7. Commit and push
 
