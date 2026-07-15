@@ -155,11 +155,37 @@
     <p>The server does the deterministic parts. Claude does the writing.</p>
   </div>
   <div class="flow">
-    <div class="step reveal"><span class="step-n">1</span><h4>Load</h4><p><code>load_master_resume</code> pulls your stored CV.</p></div>
-    <div class="step reveal" style="--d:.06s"><span class="step-n">2</span><h4>Analyze</h4><p><code>fetch_job_posting</code> → <code>extract_keywords</code>.</p></div>
-    <div class="step reveal" style="--d:.12s"><span class="step-n">3</span><h4>Rewrite</h4><p><em>Claude</em> rewrites to surface real, matching skills.</p></div>
-    <div class="step reveal" style="--d:.18s"><span class="step-n">4</span><h4>Check</h4><p><code>ats_gap_check</code> confirms the score jumped.</p></div>
-    <div class="step reveal" style="--d:.24s"><span class="step-n">5</span><h4>Export</h4><p><code>export_resume</code> → a clean PDF or DOCX.</p></div>
+    <div class="flow-rail" aria-hidden="true"></div>
+    <div class="step reveal">
+      <div class="step-top"><span class="step-n">1</span>
+        <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></svg>
+      </div>
+      <h4>Load</h4><p><code>load_master_resume</code> pulls your stored CV.</p>
+    </div>
+    <div class="step reveal" style="--d:.06s">
+      <div class="step-top"><span class="step-n">2</span>
+        <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <h4>Analyze</h4><p><code>fetch_job_posting</code> → <code>extract_keywords</code>.</p>
+    </div>
+    <div class="step reveal" style="--d:.12s">
+      <div class="step-top"><span class="step-n">3</span>
+        <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      </div>
+      <h4>Rewrite</h4><p><em>Claude</em> rewrites to surface real, matching skills.</p>
+    </div>
+    <div class="step reveal" style="--d:.18s">
+      <div class="step-top"><span class="step-n">4</span>
+        <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.8 10A10 10 0 1 1 17 3.3"/><path d="m9 11 3 3L22 4"/></svg>
+      </div>
+      <h4>Check</h4><p><code>ats_gap_check</code> confirms the score jumped.</p>
+    </div>
+    <div class="step reveal" style="--d:.24s">
+      <div class="step-top"><span class="step-n">5</span>
+        <svg class="step-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v5h5"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+      </div>
+      <h4>Export</h4><p><code>export_resume</code> → a clean PDF or DOCX.</p>
+    </div>
   </div>
 </section>
 
