@@ -36,7 +36,7 @@ code,pre{font-family:"JetBrains Mono",monospace}
   backdrop-filter:blur(10px);}
 .brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk";font-weight:700;font-size:1.05rem}
 .brand em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.brand-mark{width:22px;height:22px;border-radius:7px;background:var(--grad);box-shadow:0 0 18px rgba(110,86,207,.6)}
+.brand-mark{width:26px;height:26px;border-radius:8px;display:block;box-shadow:0 4px 16px rgba(110,86,207,.45)}
 .nav-links{display:flex;align-items:center;gap:26px;font-size:.94rem;color:var(--muted)}
 .nav-links a:hover{color:var(--ink)}
 .nav-cta{padding:8px 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink)!important}
