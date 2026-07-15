@@ -136,6 +136,36 @@ Everything runs **locally**. No secrets, no external accounts.
 - Real selectable text — never image-rendered.
 - Plain headings and bullet lists that map cleanly to resume sections.
 
+## Contributing
+
+Contributions are very welcome — this is an open-source project and PRs of any
+size help. The quickest way in is to **fork** the repo, add what you want (new
+skill keywords, a nicer export layout, a new tool), and open a pull request.
+
+```bash
+# 1. Fork on GitHub, then clone your fork
+git clone git@github.com:YOUR-USERNAME/MCP-Resume-Tailor-.git
+cd MCP-Resume-Tailor-
+
+# 2. Set up and create a branch
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+git checkout -b my-improvement
+
+# 3. Make your change, commit, push
+git commit -am "Describe your change"
+git push origin my-improvement
+
+# 4. Open a Pull Request on GitHub
+```
+
+Great first contributions: add skills to `KNOWN_TERMS` / `KNOWN_PHRASES` in
+`server.py`, filter a filler word in `STOPLIST`, or improve the PDF/DOCX layout.
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the full step-by-step guide,
+including how to keep your fork in sync and where each part of the code lives.
+
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). By contributing, you agree your contributions are
+licensed under the same MIT license.
