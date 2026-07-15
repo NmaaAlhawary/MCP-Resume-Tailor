@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="340" viewBox="0 0 1000 340" role="img" aria-label="Resume-Tailor MCP — tailor your CV to any job, automatically">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141922"/>
+      <stop offset="1" stop-color="#0a0d12"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#D97757"/>
+      <stop offset="1" stop-color="#6E56CF"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3fb950"/>
+      <stop offset="1" stop-color="#6E56CF"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="998" height="338" rx="22" fill="url(#bg)" stroke="#232a33" stroke-width="1"/>
+  <!-- left accent bar -->
+  <rect x="48" y="70" width="6" height="150" rx="3" fill="url(#accent)"/>
+
+  <!-- title + tagline (left aligned) -->
+  <text x="78" y="132" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="56" font-weight="800"
+        fill="#ffffff" letter-spacing="-1">Resume-Tailor MCP</text>
+  <rect x="80" y="150" width="215" height="6" rx="3" fill="url(#accent)"/>
+  <text x="80" y="196" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="24" font-weight="400"
+        fill="#9da7b3">Tailor your CV to any job — automatically, from your AI chat.</text>
+
+  <!-- pills -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">
+    <rect x="80" y="230" width="140" height="38" rx="19" fill="#1c1330" stroke="#6E56CF" stroke-width="1.2"/>
+    <text x="150" y="255" text-anchor="middle" fill="#b79dff">MCP server</text>
+    <rect x="232" y="230" width="168" height="38" rx="19" fill="#2a1a14" stroke="#D97757" stroke-width="1.2"/>
+    <text x="316" y="255" text-anchor="middle" fill="#f0a488">ATS gap score</text>
+    <rect x="412" y="230" width="182" height="38" rx="19" fill="#12241a" stroke="#3fb950" stroke-width="1.2"/>
+    <text x="503" y="255" text-anchor="middle" fill="#7ee787">PDF · DOCX export</text>
+  </g>
+
+  <!-- resume document motif (right) -->
+  <g>
+    <rect x="700" y="64" width="196" height="212" rx="12" fill="#eef1f4" stroke="#cdd5de" stroke-width="1"/>
+    <rect x="722" y="88" width="96" height="14" rx="4" fill="#c3ccd6"/>
+    <rect x="722" y="112" width="152" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="128" width="152" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="144" width="120" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="172" width="60" height="9" rx="4.5" fill="#D97757" opacity="0.85"/>
+    <rect x="722" y="192" width="152" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="208" width="140" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="224" width="152" height="7" rx="3.5" fill="#dbe1e8"/>
+    <rect x="722" y="240" width="96" height="7" rx="3.5" fill="#dbe1e8"/>
+  </g>
+
+  <!-- ATS score badge overlapping the document -->
+  <g transform="translate(896,248)">
+    <circle r="46" fill="#0d1117" stroke="url(#ring)" stroke-width="6"/>
+    <text x="0" y="-2" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+          font-size="30" font-weight="800" fill="#ffffff">85%</text>
+    <text x="0" y="20" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+          font-size="13" font-weight="600" fill="#7ee787" letter-spacing="1">ATS</text>
+  </g>
+</svg>
