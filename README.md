@@ -80,8 +80,8 @@ the three things a plain chat **can't** do:
 ## Installation
 
 ```bash
-git clone git@github.com:NmaaAlhawary/MCP-Resume-Tailor-.git
-cd MCP-Resume-Tailor-
+git clone git@github.com:NmaaAlhawary/MCP-Resume-Tailor.git
+cd MCP-Resume-Tailor
 
 python3 -m venv .venv
 source .venv/bin/activate          # fish: source .venv/bin/activate.fish
@@ -107,8 +107,8 @@ Add this to your `claude_desktop_config.json`
 {
   "mcpServers": {
     "resume-tailor": {
-      "command": "/absolute/path/to/MCP-Resume-Tailor-/.venv/bin/python",
-      "args": ["/absolute/path/to/MCP-Resume-Tailor-/server.py"],
+      "command": "/absolute/path/to/MCP-Resume-Tailor/.venv/bin/python",
+      "args": ["/absolute/path/to/MCP-Resume-Tailor/server.py"],
       "env": {
         "RESUME_STORE_PATH": "~/.resume-mcp/master.json"
       }
@@ -175,8 +175,8 @@ make your change, and open a pull request.
 
 ```bash
 # 1. Fork on GitHub, then clone your fork
-git clone git@github.com:YOUR-USERNAME/MCP-Resume-Tailor-.git
-cd MCP-Resume-Tailor-
+git clone git@github.com:YOUR-USERNAME/MCP-Resume-Tailor.git
+cd MCP-Resume-Tailor
 
 # 2. Set up and branch
 python3 -m venv .venv && source .venv/bin/activate

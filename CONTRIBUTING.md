@@ -17,20 +17,20 @@ Fork  ─►  Clone your fork  ─►  Create a branch  ─►  Make changes
 ## 1. Fork the repository
 
 Click the **Fork** button at the top-right of
-[the repo page](https://github.com/NmaaAlhawary/MCP-Resume-Tailor-).
+[the repo page](https://github.com/NmaaAlhawary/MCP-Resume-Tailor).
 This creates your own copy under your GitHub account.
 
 ## 2. Clone your fork locally
 
 ```bash
-git clone git@github.com:YOUR-USERNAME/MCP-Resume-Tailor-.git
-cd MCP-Resume-Tailor-
+git clone git@github.com:YOUR-USERNAME/MCP-Resume-Tailor.git
+cd MCP-Resume-Tailor
 ```
 
 Then link the original repo as `upstream` so you can pull in future updates:
 
 ```bash
-git remote add upstream git@github.com:NmaaAlhawary/MCP-Resume-Tailor-.git
+git remote add upstream git@github.com:NmaaAlhawary/MCP-Resume-Tailor.git
 git remote -v   # origin = your fork, upstream = the original
 ```
 
@@ -103,7 +103,7 @@ git push origin add-rust-keywords
 ## 8. Open a Pull Request
 
 Go to your fork on GitHub — it will show a **"Compare & pull request"** button.
-Open a PR against `NmaaAlhawary/MCP-Resume-Tailor-` `main`. In the description,
+Open a PR against `NmaaAlhawary/MCP-Resume-Tailor` `main`. In the description,
 briefly explain:
 
 - **What** you changed.
@@ -134,5 +134,5 @@ git push origin main
 Be kind and constructive. We're all here to build something useful together.
 This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
-Questions? Open an [issue](https://github.com/NmaaAlhawary/MCP-Resume-Tailor-/issues)
+Questions? Open an [issue](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/issues)
 and ask — no question is too small.
