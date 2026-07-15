@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resume-Tailor MCP — Tailor your CV to any job, automatically</title>
+<meta name="description" content="An open-source MCP server that gives Claude a persistent master résumé, a real ATS keyword score, and clean PDF / DOCX export." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23D97757'/%3E%3Cstop offset='1' stop-color='%236E56CF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- animated background -->
+<div class="aurora">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+  <div class="grid-overlay"></div>
+</div>
+
+<!-- nav -->
+<header class="nav">
+  <a class="brand" href="#top">
+    <span class="brand-mark"></span>
+    Resume&#8209;Tailor <em>MCP</em>
+  </a>
+  <nav class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#demo">Demo</a>
+    <a href="#flow">How it works</a>
+    <a href="#tools">Tools</a>
+    <a class="nav-cta" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+</header>
+
+<!-- hero -->
+<main id="top">
+<section class="hero">
+  <div class="hero-copy reveal">
+    <span class="eyebrow">Open-source · Model Context Protocol</span>
+    <h1>Tailor your CV to <span class="grad">any job</span>,<br>automatically.</h1>
+    <p class="lede">
+      A local MCP server that gives Claude a <strong>persistent master résumé</strong>,
+      a <strong>real ATS keyword score</strong>, and <strong>clean PDF / DOCX export</strong>.
+      You say the word — Claude does the rewrite, the math, and the file.
+    </p>
+    <div class="cta-row">
+      <a class="btn primary" href="#demo">Watch the demo ▶</a>
+      <a class="btn ghost" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor" target="_blank" rel="noopener">Star on GitHub</a>
+    </div>
+    <div class="badges">
+      <span class="chip">MCP server</span>
+      <span class="chip">ATS gap score</span>
+      <span class="chip">PDF · DOCX</span>
+      <span class="chip">100% local</span>
+    </div>
+  </div>
+
+  <!-- hero visual: resume + ATS ring -->
+  <div class="hero-visual reveal">
+    <div class="doc-card float">
+      <div class="doc-head">
+        <span class="doc-name"></span>
+        <span class="doc-sub"></span>
+      </div>
+      <span class="doc-line w80"></span>
+      <span class="doc-line w95"></span>
+      <span class="doc-line w70"></span>
+      <span class="doc-tag">EXPERIENCE</span>
+      <span class="doc-line w90"></span>
+      <span class="doc-line w85"></span>
+      <span class="doc-line w60"></span>
+      <span class="doc-tag alt">SKILLS</span>
+      <span class="doc-line w75"></span>
+    </div>
+
+    <div class="ring-badge">
+      <svg viewBox="0 0 120 120" width="132" height="132">
+        <defs>
+          <linearGradient id="ringgrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3fb950"/>
+            <stop offset="1" stop-color="#6E56CF"/>
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="52" class="ring-track"/>
+        <circle cx="60" cy="60" r="52" class="ring-fill" id="atsRing"/>
+      </svg>
+      <div class="ring-num"><span id="atsNum">0</span>%</div>
+      <div class="ring-label">ATS match</div>
+    </div>
+  </div>
+</section>
+
+<!-- marquee strip -->
+<section class="strip">
+  <div class="strip-track">
+    <span>Claude Desktop</span><i>•</i><span>Cursor</span><i>•</i><span>Any MCP client</span><i>•</i>
+    <span>Python 3.11+</span><i>•</i><span>No accounts</span><i>•</i><span>MIT licensed</span><i>•</i>
+    <span>Claude Desktop</span><i>•</i><span>Cursor</span><i>•</i><span>Any MCP client</span><i>•</i>
+    <span>Python 3.11+</span><i>•</i><span>No accounts</span><i>•</i><span>MIT licensed</span><i>•</i>
+  </div>
+</section>
+
+<!-- features -->
+<section id="features" class="section">
+  <div class="section-head reveal">
+    <span class="kicker">Why install it</span>
+    <h2>Three things a plain chat <span class="grad">can't</span> do</h2>
+    <p>Claude already rewrites CVs. This server adds the parts chat is missing.</p>
+  </div>
+  <div class="cards">
+    <article class="card reveal">
+      <div class="card-ic ic-store"></div>
+      <h3>Persistent master CV</h3>
+      <p>Store your base résumé once as structured JSON. It survives between sessions and powers every future tailoring — no re-pasting.</p>
+    </article>
+    <article class="card reveal" style="--d:.08s">
+      <div class="card-ic ic-score"></div>
+      <h3>Real ATS gap score</h3>
+      <p>Deterministic keyword math — not vibes. See your match %, and the exact keywords you're missing so the rewrite is targeted.</p>
+    </article>
+    <article class="card reveal" style="--d:.16s">
+      <div class="card-ic ic-export"></div>
+      <h3>ATS-safe export</h3>
+      <p>Single-column PDF / DOCX with real, selectable text and standard fonts — the layout ATS parsers actually read correctly.</p>
+    </article>
+  </div>
+</section>
+
+<!-- demo (the "video") -->
+<section id="demo" class="section">
+  <div class="section-head reveal">
+    <span class="kicker">Live demo</span>
+    <h2>One sentence. <span class="grad">Done.</span></h2>
+    <p>An auto-playing walkthrough of a real tailoring session.</p>
+  </div>
+
+  <div class="demo-window reveal">
+    <div class="win-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="win-title">Claude Desktop — resume-tailor</span>
+    </div>
+    <div class="chat" id="chat"></div>
+  </div>
+</section>
+
+<!-- flow -->
+<section id="flow" class="section">
+  <div class="section-head reveal">
+    <span class="kicker">How it works</span>
+    <h2>Load → analyze → <span class="grad">rewrite</span> → check → export</h2>
+    <p>The server does the deterministic parts. Claude does the writing.</p>
+  </div>
+  <div class="flow">
+    <div class="step reveal"><span class="step-n">1</span><h4>Load</h4><p><code>load_master_resume</code> pulls your stored CV.</p></div>
+    <div class="step reveal" style="--d:.06s"><span class="step-n">2</span><h4>Analyze</h4><p><code>fetch_job_posting</code> → <code>extract_keywords</code>.</p></div>
+    <div class="step reveal" style="--d:.12s"><span class="step-n">3</span><h4>Rewrite</h4><p><em>Claude</em> rewrites to surface real, matching skills.</p></div>
+    <div class="step reveal" style="--d:.18s"><span class="step-n">4</span><h4>Check</h4><p><code>ats_gap_check</code> confirms the score jumped.</p></div>
+    <div class="step reveal" style="--d:.24s"><span class="step-n">5</span><h4>Export</h4><p><code>export_resume</code> → a clean PDF or DOCX.</p></div>
+  </div>
+</section>
+
+<!-- tools -->
+<section id="tools" class="section">
+  <div class="section-head reveal">
+    <span class="kicker">The toolbox</span>
+    <h2>Six tools, one clean flow</h2>
+  </div>
+  <div class="tools-grid">
+    <div class="tool reveal"><code>save_master_resume</code><p>Store / update the base CV.</p></div>
+    <div class="tool reveal"><code>load_master_resume</code><p>Return the stored master CV.</p></div>
+    <div class="tool reveal"><code>fetch_job_posting</code><p>Job URL → clean text (paste fallback).</p></div>
+    <div class="tool reveal"><code>extract_keywords</code><p>Ranked ATS keywords, deterministically.</p></div>
+    <div class="tool reveal"><code>ats_gap_check</code><p>Match % + the exact missing terms.</p></div>
+    <div class="tool reveal"><code>export_resume</code><p>Clean PDF / DOCX, ATS-safe.</p></div>
+  </div>
+</section>
+
+<!-- install -->
+<section id="install" class="section">
+  <div class="section-head reveal">
+    <span class="kicker">Get started</span>
+    <h2>Running in <span class="grad">two minutes</span></h2>
+  </div>
+  <div class="install reveal">
+    <div class="code-block">
+      <button class="copy" data-copy="git clone git@github.com:NmaaAlhawary/MCP-Resume-Tailor.git
+cd MCP-Resume-Tailor
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+python server.py">Copy</button>
+<pre><code><span class="c-com"># clone &amp; set up</span>
+git clone git@github.com:NmaaAlhawary/MCP-Resume-Tailor.git
+cd MCP-Resume-Tailor
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+<span class="c-com"># run the MCP server</span>
+python server.py</code></pre>
+    </div>
+    <p class="install-note">Then add it to <code>claude_desktop_config.json</code> and restart Claude Desktop —
+    the six tools appear under the tools menu. Full steps in the
+    <a href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor#readme" target="_blank" rel="noopener">README</a>.</p>
+  </div>
+</section>
+
+<!-- final CTA -->
+<section class="section final reveal">
+  <h2>Stop rewriting your CV by hand.</h2>
+  <p>Set up your master résumé once. Tailor it for every job in one message.</p>
+  <div class="cta-row center">
+    <a class="btn primary" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor" target="_blank" rel="noopener">Get it on GitHub ↗</a>
+    <a class="btn ghost" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor/releases" target="_blank" rel="noopener">Releases</a>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <span>Built by <a href="https://github.com/NmaaAlhawary" target="_blank" rel="noopener">Nmaa Hawary</a> · MIT License</span>
+  <span class="foot-links">
+    <a href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor" target="_blank" rel="noopener">Repo</a>
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a>
+  </span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
