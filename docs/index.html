@@ -4,12 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Resume-Tailor MCP — Tailor your CV to any job, automatically</title>
-<meta name="description" content="An open-source MCP server that gives Claude a persistent master résumé, a real ATS keyword score, and clean PDF / DOCX export." />
+<meta name="description" content="An open-source MCP server that gives Claude a persistent master resume, a real ATS keyword score, and clean PDF / DOCX export." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-<link rel="stylesheet" href="styles.css?v=8" />
+<link rel="stylesheet" href="styles.css?v=9" />
 </head>
 <body>
 
@@ -43,7 +43,7 @@
     <span class="eyebrow">Open-source · Model Context Protocol</span>
     <h1>Tailor your CV to <span class="grad">any job</span>,<br>automatically.</h1>
     <p class="lede">
-      A local MCP server for Claude: a <strong>persistent master résumé</strong>,
+      A local MCP server for Claude: a <strong>persistent master resume</strong>,
       a <strong>real ATS score</strong>, and <strong>clean PDF / DOCX export</strong>.
     </p>
     <div class="cta-row">
@@ -118,7 +118,7 @@
         </div>
         <h3>Persistent master CV</h3>
       </div>
-      <p>Store your base résumé once as structured JSON. It survives between sessions and powers every future tailoring, with no re-pasting.</p>
+      <p>Save your resume once. The server remembers it between chats, so every job you tailor for starts from your real CV, with no re-pasting.</p>
     </article>
     <article class="card reveal" style="--d:.08s">
       <div class="card-head">
@@ -127,7 +127,7 @@
         </div>
         <h3>Real ATS gap score</h3>
       </div>
-      <p>Deterministic keyword math, not vibes. See your match %, and the exact keywords you're missing so the rewrite is targeted.</p>
+      <p>The server scores your CV against the job's keywords with real math, not guesswork. You see a match % and the exact terms you're missing, so the rewrite fixes what counts.</p>
     </article>
     <article class="card reveal" style="--d:.16s">
       <div class="card-head">
@@ -136,7 +136,7 @@
         </div>
         <h3>ATS-safe export</h3>
       </div>
-      <p>Single-column PDF / DOCX with real, selectable text and standard fonts, so the layout is one ATS parsers actually read correctly.</p>
+      <p>The server exports the finished CV as a single-column PDF or DOCX with real, selectable text and standard fonts, so ATS software reads it correctly instead of garbling the layout.</p>
     </article>
   </div>
 </section>
@@ -252,7 +252,7 @@ python server.py</code></pre>
 <!-- final CTA -->
 <section class="section final reveal">
   <h2>Stop rewriting your CV by hand.</h2>
-  <p>Set up your master résumé once. Tailor it for every job in one message.</p>
+  <p>Set up your master resume once. Tailor it for every job in one message.</p>
   <div class="cta-row center">
     <a class="btn primary" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor" target="_blank" rel="noopener">Get it on GitHub ↗</a>
     <a class="btn ghost" href="https://github.com/NmaaAlhawary/MCP-Resume-Tailor/releases" target="_blank" rel="noopener">Releases</a>
@@ -268,6 +268,6 @@ python server.py</code></pre>
   </span>
 </footer>
 
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

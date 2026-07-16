@@ -25,7 +25,7 @@
   <rect x="16" y="16" width="480" height="480" rx="118" fill="url(#bg)"/>
   <rect x="16" y="16" width="480" height="240" rx="118" fill="url(#sheen)"/>
 
-  <!-- résumé sheet -->
+  <!-- resume sheet -->
   <g filter="url(#ds)">
     <path d="M154 116 h146 l60 60 v198 a24 24 0 0 1 -24 24 H154 a24 24 0 0 1 -24 -24 V140 a24 24 0 0 1 24 -24 Z" fill="#ffffff"/>
     <!-- folded corner -->
