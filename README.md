@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hero.svg" alt="Resume-Tailor MCP — tailor your CV to any job, automatically" width="820">
+<img src="https://raw.githubusercontent.com/NmaaAlhawary/MCP-Resume-Tailor/main/assets/hero.png" alt="Resume-Tailor MCP — tailor your CV to any job, automatically" width="820">
 
 <br><br>
 
@@ -8,12 +8,12 @@ An open-source **[Model Context Protocol](https://modelcontextprotocol.io)** ser
 Claude Desktop (or any MCP client) a persistent master résumé, a real ATS keyword score,
 and clean PDF / DOCX export.
 
+[![PyPI](https://img.shields.io/pypi/v/resume-tailor-mcp?logo=pypi&logoColor=white&color=3fb950)](https://pypi.org/project/resume-tailor-mcp/)
 [![Website](https://img.shields.io/badge/website-live-6E56CF?logo=githubpages&logoColor=white)](https://nmaaalhawary.github.io/MCP-Resume-Tailor/)
 [![CI](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/actions/workflows/ci.yml/badge.svg)](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![MCP](https://img.shields.io/badge/MCP-compatible-6E56CF)](https://modelcontextprotocol.io)
-[![Release](https://img.shields.io/github/v/release/NmaaAlhawary/MCP-Resume-Tailor?color=3fb950)](https://github.com/NmaaAlhawary/MCP-Resume-Tailor/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Built for Claude](https://img.shields.io/badge/built%20for-Claude-D97757)](https://claude.ai)
 
@@ -88,6 +88,16 @@ the three things a plain chat **can't** do:
 
 ## Installation
 
+### Option A — install from PyPI (recommended)
+
+```bash
+pip install resume-tailor-mcp     # or: uvx resume-tailor-mcp
+```
+
+That installs a `resume-tailor-mcp` command that runs the MCP server.
+
+### Option B — from source
+
 ```bash
 git clone git@github.com:NmaaAlhawary/MCP-Resume-Tailor.git
 cd MCP-Resume-Tailor
@@ -110,7 +120,23 @@ python -c "import asyncio, server; print([t.name for t in asyncio.run(server.mcp
 ## Connect to Claude Desktop
 
 Add this to your `claude_desktop_config.json`
-(`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+(`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS).
+
+**If you installed from PyPI** (simplest — `uvx` fetches and runs it):
+
+```json
+{
+  "mcpServers": {
+    "resume-tailor": {
+      "command": "uvx",
+      "args": ["resume-tailor-mcp"],
+      "env": { "RESUME_STORE_PATH": "~/.resume-mcp/master.json" }
+    }
+  }
+}
+```
+
+**If you installed from source**, point at your venv's Python and `server.py`:
 
 ```json
 {
@@ -118,9 +144,7 @@ Add this to your `claude_desktop_config.json`
     "resume-tailor": {
       "command": "/absolute/path/to/MCP-Resume-Tailor/.venv/bin/python",
       "args": ["/absolute/path/to/MCP-Resume-Tailor/server.py"],
-      "env": {
-        "RESUME_STORE_PATH": "~/.resume-mcp/master.json"
-      }
+      "env": { "RESUME_STORE_PATH": "~/.resume-mcp/master.json" }
     }
   }
 }
