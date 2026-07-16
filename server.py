@@ -15,13 +15,17 @@ Flow:  load_master_resume + fetch_job_posting + extract_keywords
 
 from __future__ import annotations
 
+import ipaddress
 import json
 import os
 import re
+import shutil
+import socket
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Literal
+from urllib.parse import urlparse
 
 import httpx
 from bs4 import BeautifulSoup
@@ -66,8 +70,54 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+_MAX_FETCH_BYTES = 3_000_000  # cap job-posting downloads at ~3 MB
+_MAX_REDIRECTS = 5
+
+
+def _assert_public_url(url: str) -> None:
+    """Reject anything that isn't a plain http(s) URL pointing at a public host.
+
+    This is an SSRF guard: the server runs on the user's machine, so an
+    attacker-controlled or prompt-injected "job URL" must not be able to reach
+    localhost, the LAN, or cloud metadata (169.254.169.254). Every IP the host
+    resolves to must be public. (Residual risk: DNS rebinding between this check
+    and the actual request — acceptable for a local, single-user tool.)
+    """
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(
+            f"Only http/https URLs are allowed (got '{parsed.scheme or 'no scheme'}')."
+        )
+    host = parsed.hostname
+    if not host:
+        raise ValueError("URL has no host.")
+    port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    try:
+        infos = socket.getaddrinfo(host, port, proto=socket.IPPROTO_TCP)
+    except socket.gaierror as exc:
+        raise ValueError(f"Could not resolve host '{host}': {exc}") from exc
+    for info in infos:
+        ip = ipaddress.ip_address(info[4][0])
+        if (
+            ip.is_private
+            or ip.is_loopback
+            or ip.is_link_local
+            or ip.is_reserved
+            or ip.is_multicast
+            or ip.is_unspecified
+        ):
+            raise ValueError(
+                f"Refusing to fetch a non-public address ({ip}) for host '{host}'."
+            )
+
+
 def fetch_url(url: str) -> str:
-    """Fetch a URL and return raw HTML, with a clear, readable error on failure."""
+    """Fetch a URL and return HTML text, with a clear error on failure.
+
+    Redirects are followed manually so every hop is re-validated by
+    `_assert_public_url` (auto-following could otherwise be bounced to an
+    internal host), and the body is capped at `_MAX_FETCH_BYTES`.
+    """
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -75,10 +125,28 @@ def fetch_url(url: str) -> str:
             "Chrome/122.0 Safari/537.36"
         )
     }
-    with httpx.Client(follow_redirects=True, timeout=20.0, headers=headers) as client:
-        resp = client.get(url)
-        resp.raise_for_status()
-        return resp.text
+    current = url
+    with httpx.Client(follow_redirects=False, timeout=20.0, headers=headers) as client:
+        for _ in range(_MAX_REDIRECTS + 1):
+            _assert_public_url(current)
+            with client.stream("GET", current) as resp:
+                if resp.is_redirect:
+                    location = resp.headers.get("location", "")
+                    if not location:
+                        break
+                    current = str(httpx.URL(current).join(location))
+                    continue
+                resp.raise_for_status()
+                chunks: list[bytes] = []
+                total = 0
+                for chunk in resp.iter_bytes():
+                    chunks.append(chunk)
+                    total += len(chunk)
+                    if total >= _MAX_FETCH_BYTES:
+                        break
+                body = b"".join(chunks)[:_MAX_FETCH_BYTES]
+                return body.decode(resp.encoding or "utf-8", errors="replace")
+    raise ValueError(f"Too many redirects while fetching {url}.")
 
 
 # --------------------------------------------------------------------------- #
@@ -296,6 +364,9 @@ def save_master_resume(resume: dict[str, Any]) -> str:
     Returns a confirmation with the stored path.
     """
     path = _store_path()
+    # Keep a single-level backup so an accidental overwrite is recoverable.
+    if path.exists():
+        shutil.copy2(path, path.with_suffix(path.suffix + ".bak"))
     write_json(path, resume)
     name = resume.get("contact", {}).get("name", "resume")
     return f"Saved master resume for '{name}' to {path}."
@@ -402,17 +473,60 @@ def extract_keywords(job_text: str, top_n: int = 30) -> dict[str, Any]:
 # Tool 5 — the ATS gap check (the standout feature).
 # --------------------------------------------------------------------------- #
 
-def _term_present(term: str, haystack: str) -> bool:
-    """Whole-word-ish presence check, tolerant of plurals and separators."""
+# Equivalence classes for ATS matching: a keyword counts as present if ANY
+# member of its group is in the resume. Kept conservative — only widely accepted
+# equivalents — so we never award a false match (e.g. "C#" is NOT ".NET").
+_SYNONYM_GROUPS: list[set[str]] = [
+    {"javascript", "js", "ecmascript"},
+    {"typescript", "ts"},
+    {"kubernetes", "k8s"},
+    {"postgresql", "postgres", "psql"},
+    {"ci/cd", "cicd", "continuous integration", "continuous delivery",
+     "continuous deployment"},
+    {"aws", "amazon web services"},
+    {"gcp", "google cloud", "google cloud platform"},
+    {"node.js", "nodejs", "node"},
+    {"react", "react.js", "reactjs"},
+    {"vue", "vue.js", "vuejs"},
+    {"next.js", "nextjs"},
+    {"rest apis", "rest api", "restful apis", "restful", "rest"},
+    {"machine learning", "ml"},
+    {"natural language processing", "nlp"},
+    {"object-oriented", "object oriented", "oop"},
+    {"test-driven development", "tdd"},
+    {"user interface", "ui"},
+    {"user experience", "ux"},
+    {"infrastructure as code", "iac"},
+]
+
+
+def _equivalents(term: str) -> set[str]:
+    """All accepted surface forms for a keyword (itself plus any synonym group)."""
     t = term.lower().strip()
-    if not t:
-        return False
-    # Escape, then allow flexible whitespace/punctuation between phrase words.
-    parts = [re.escape(p) for p in re.split(r"\s+", t)]
-    pattern = r"[\s\-/]*".join(parts)
-    # Word-ish boundaries; allow trailing 's' for simple plurals.
-    regex = re.compile(rf"(?<![A-Za-z0-9]){pattern}s?(?![A-Za-z])", re.IGNORECASE)
-    return bool(regex.search(haystack))
+    forms = {t}
+    for group in _SYNONYM_GROUPS:
+        if t in group:
+            forms |= group
+    return forms
+
+
+def _term_present(term: str, haystack: str) -> bool:
+    """Whole-word-ish presence check, tolerant of plurals and separators.
+
+    Also matches accepted synonyms — so a resume saying "K8s" satisfies a
+    "Kubernetes" keyword, and "JS" satisfies "JavaScript".
+    """
+    for form in _equivalents(term):
+        if not form:
+            continue
+        # Escape, then allow flexible whitespace/punctuation between phrase words.
+        parts = [re.escape(p) for p in re.split(r"\s+", form)]
+        pattern = r"[\s\-/]*".join(parts)
+        # Word-ish boundaries; allow trailing 's' for simple plurals.
+        regex = re.compile(rf"(?<![A-Za-z0-9]){pattern}s?(?![A-Za-z])", re.IGNORECASE)
+        if regex.search(haystack):
+            return True
+    return False
 
 
 @mcp.tool()
@@ -556,16 +670,49 @@ def _export_docx(blocks: list[tuple[str, str]], out: Path) -> None:
 
     for kind, text in blocks:
         if kind == "h1":
-            p = doc.add_heading(text, level=0)
+            doc.add_heading(text, level=0)
         elif kind == "h2":
-            p = doc.add_heading(text, level=1)
+            doc.add_heading(text, level=1)
         elif kind == "h3":
-            p = doc.add_heading(text, level=2)
+            doc.add_heading(text, level=2)
         elif kind == "bullet":
-            p = doc.add_paragraph(text, style="List Bullet")
+            doc.add_paragraph(text, style="List Bullet")
         else:
-            p = doc.add_paragraph(text)
-    doc.save(out)
+            doc.add_paragraph(text)
+    doc.save(str(out))
+
+
+_PDF_FONTS_REGISTERED = False
+
+
+def _register_pdf_fonts() -> tuple[str, str]:
+    """Register a Unicode TTF so accented names ('José', 'résumé') render as
+    real glyphs instead of boxes.
+
+    Uses Bitstream Vera Sans, which ships *inside* reportlab (no extra binary in
+    this repo) and covers Latin + accents + many European scripts. Falls back to
+    the Latin-1-only built-in Helvetica if the font can't be loaded. Returns
+    (regular_font_name, bold_font_name).
+    """
+    global _PDF_FONTS_REGISTERED
+    if _PDF_FONTS_REGISTERED:
+        return ("ResumeSans", "ResumeSans-Bold")
+
+    import reportlab
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+
+    fonts_dir = os.path.join(os.path.dirname(reportlab.__file__), "fonts")
+    try:
+        pdfmetrics.registerFont(TTFont("ResumeSans", os.path.join(fonts_dir, "Vera.ttf")))
+        pdfmetrics.registerFont(TTFont("ResumeSans-Bold", os.path.join(fonts_dir, "VeraBd.ttf")))
+        pdfmetrics.registerFontFamily(
+            "ResumeSans", normal="ResumeSans", bold="ResumeSans-Bold"
+        )
+        _PDF_FONTS_REGISTERED = True
+        return ("ResumeSans", "ResumeSans-Bold")
+    except Exception:  # noqa: BLE001 - degrade gracefully to a built-in font
+        return ("Helvetica", "Helvetica-Bold")
 
 
 def _export_pdf(blocks: list[tuple[str, str]], out: Path) -> None:
@@ -578,17 +725,25 @@ def _export_pdf(blocks: list[tuple[str, str]], out: Path) -> None:
         ListItem,
         Paragraph,
         SimpleDocTemplate,
-        Spacer,
     )
 
+    base_font, bold_font = _register_pdf_fonts()
     styles = getSampleStyleSheet()
     base = ParagraphStyle(
-        "Body", parent=styles["Normal"], fontName="Helvetica",
+        "Body", parent=styles["Normal"], fontName=base_font,
         fontSize=10.5, leading=14, alignment=TA_LEFT,
     )
-    h1 = ParagraphStyle("H1", parent=base, fontName="Helvetica-Bold", fontSize=18, leading=22, spaceAfter=2)
-    h2 = ParagraphStyle("H2", parent=base, fontName="Helvetica-Bold", fontSize=13, leading=16, spaceBefore=10, spaceAfter=4)
-    h3 = ParagraphStyle("H3", parent=base, fontName="Helvetica-Bold", fontSize=11, leading=14, spaceBefore=6, spaceAfter=1)
+    h1 = ParagraphStyle(
+        "H1", parent=base, fontName=bold_font, fontSize=18, leading=22, spaceAfter=2
+    )
+    h2 = ParagraphStyle(
+        "H2", parent=base, fontName=bold_font, fontSize=13, leading=16,
+        spaceBefore=10, spaceAfter=4,
+    )
+    h3 = ParagraphStyle(
+        "H3", parent=base, fontName=bold_font, fontSize=11, leading=14,
+        spaceBefore=6, spaceAfter=1,
+    )
 
     doc = SimpleDocTemplate(
         str(out), pagesize=letter,

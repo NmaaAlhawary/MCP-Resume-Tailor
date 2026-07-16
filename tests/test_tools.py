@@ -63,6 +63,37 @@ def test_fetch_bad_url_never_fails_silently(srv):
 
 
 # --------------------------------------------------------------------------- #
+# fetch_url — SSRF guard
+# --------------------------------------------------------------------------- #
+
+def test_ssrf_blocks_loopback(srv):
+    with pytest.raises(ValueError, match="non-public"):
+        srv.fetch_url("http://127.0.0.1/admin")
+
+
+def test_ssrf_blocks_localhost_name(srv):
+    with pytest.raises(ValueError, match="non-public"):
+        srv.fetch_url("http://localhost:8100/")
+
+
+def test_ssrf_blocks_cloud_metadata(srv):
+    with pytest.raises(ValueError, match="non-public"):
+        srv.fetch_url("http://169.254.169.254/latest/meta-data/")
+
+
+def test_ssrf_blocks_non_http_scheme(srv):
+    with pytest.raises(ValueError, match="http/https"):
+        srv.fetch_url("file:///etc/passwd")
+
+
+def test_ssrf_tool_returns_clean_message(srv):
+    # Surfaced through the tool, an SSRF attempt is a clean paste-fallback, not a crash.
+    out = srv.fetch_job_posting(url="http://localhost/secret")
+    assert out["source"] == "url_failed"
+    assert "paste" in out["message"].lower()
+
+
+# --------------------------------------------------------------------------- #
 # extract_keywords
 # --------------------------------------------------------------------------- #
 
@@ -112,6 +143,22 @@ def test_gap_check_tolerates_plurals(srv):
     assert result["match_score"] == 100.0
 
 
+def test_gap_check_matches_synonyms(srv):
+    # Resume uses short forms; job asks for the long names — should still match.
+    result = srv.ats_gap_check(
+        "Ran workloads on K8s, wrote JS, deployed to Amazon Web Services.",
+        ["Kubernetes", "JavaScript", "AWS"],
+    )
+    assert result["match_score"] == 100.0
+    assert result["missing"] == []
+
+
+def test_gap_check_synonyms_do_not_false_positive(srv):
+    # C# must NOT satisfy a ".NET" requirement — synonym groups are conservative.
+    result = srv.ats_gap_check("Strong in C# only.", ["Rust"])
+    assert result["missing"] == ["Rust"]
+
+
 # --------------------------------------------------------------------------- #
 # export_resume
 # --------------------------------------------------------------------------- #
@@ -159,3 +206,30 @@ def test_cover_letter_uses_master_header(srv):
 def test_cover_letter_empty_content_raises(srv):
     with pytest.raises(ValueError):
         srv.export_cover_letter("", format="docx", include_header=False)
+
+
+# --------------------------------------------------------------------------- #
+# save_master_resume — backup on overwrite
+# --------------------------------------------------------------------------- #
+
+def test_save_backs_up_previous_master(srv):
+    store = os.environ["RESUME_STORE_PATH"]
+    srv.save_master_resume({"contact": {"name": "First"}})
+    assert not os.path.exists(store + ".bak")  # nothing to back up on first save
+    srv.save_master_resume({"contact": {"name": "Second"}})
+    assert os.path.exists(store + ".bak")  # previous version preserved
+    with open(store + ".bak", encoding="utf-8") as fh:
+        assert "First" in fh.read()
+
+
+# --------------------------------------------------------------------------- #
+# PDF export — Unicode / accented names
+# --------------------------------------------------------------------------- #
+
+def test_pdf_exports_accented_name(srv):
+    # A Unicode TTF is registered, so accented characters don't crash the export.
+    assert srv._register_pdf_fonts()[0] == "ResumeSans"
+    out = srv.export_resume({"contact": {"name": "José Résumé Ñoño"}}, format="pdf")
+    assert os.path.exists(out["path"])
+    with open(out["path"], "rb") as fh:
+        assert fh.read(5) == b"%PDF-"

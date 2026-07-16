@@ -174,12 +174,19 @@ Behind the scenes Claude runs:
 
 Everything runs **locally**. No secrets, no external accounts.
 
+### Safety & robustness
+
+- **SSRF-guarded fetching** — `fetch_job_posting` only follows `http`/`https` URLs to **public** hosts. Requests to `localhost`, private/LAN ranges, or cloud metadata (`169.254.169.254`) are refused, and redirects are re-checked on every hop. Downloads are capped at ~3 MB.
+- **Synonym-aware ATS scoring** — the gap check treats common equivalents as a match (e.g. `K8s`↔`Kubernetes`, `JS`↔`JavaScript`, `Postgres`↔`PostgreSQL`), so scores reflect real coverage.
+- **Unicode-safe PDFs** — a bundled Unicode font renders accented names (`José`, `résumé`) correctly instead of empty boxes.
+- **Master-CV backup** — saving over an existing master CV first writes a `.bak` copy.
+
 ## ATS-safe export
 
 - Single column — no text boxes or multi-column tricks that break ATS parsers
-- Standard fonts (Calibri / Helvetica)
+- Standard fonts (Calibri for DOCX, a Unicode sans for PDF)
 - Real, selectable text — never image-rendered
-- Plain headings and bullet lists that map cleanly to résumé sections
+- Plain headings and bullet lists that map cleanly to resume sections
 
 ## Contributing
 
