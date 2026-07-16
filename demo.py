@@ -73,6 +73,17 @@ def main() -> None:
     show("6) export_resume (docx)", s.export_resume(SAMPLE_MASTER, format="docx"))
     show("6) export_resume (pdf)", s.export_resume(SAMPLE_MASTER, format="pdf"))
 
+    # 7 — export a matching cover letter (Claude writes the text; the tool formats it).
+    cover = (
+        "Dear Hiring Manager,\n\n"
+        "I'm excited to apply for the Senior Frontend Engineer role. My work in "
+        "React, TypeScript and REST APIs maps directly to your stack, and I've "
+        "shipped production features end-to-end.\n\n"
+        "I'd welcome the chance to bring that experience to your team.\n\n"
+        "Sincerely,\nNmaa Hawary"
+    )
+    show("7) export_cover_letter (pdf)", s.export_cover_letter(cover, format="pdf"))
+
     print("\nDone. Exports written next to the temp store:")
     print("  ", os.path.join(os.path.dirname(os.environ["RESUME_STORE_PATH"]), "exports"))
 

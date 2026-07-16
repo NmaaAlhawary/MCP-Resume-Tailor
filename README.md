@@ -61,9 +61,9 @@ the three things a plain chat **can't** do:
 ## How it works
 
 ```text
- load_master_resume ─┐
-                     ├─►  Claude rewrites the CV  ─►  ats_gap_check  ─►  export_resume
- fetch_job_posting ─►│                                     ▲
+ load_master_resume ─┐                                                  ┌─►  export_resume
+                     ├─►  Claude rewrites the CV  ─►  ats_gap_check  ─►──┤
+ fetch_job_posting ─►│                                     ▲            └─►  export_cover_letter
  extract_keywords ───┘─────────────────────────────────────┘
 ```
 
@@ -72,6 +72,7 @@ the three things a plain chat **can't** do:
 3. **Rewrite** — *Claude* rewrites the CV to honestly surface the missing keywords
 4. **Check** the rewrite — `ats_gap_check` (did the score go up?)
 5. **Export** — `export_resume` → a clean PDF or DOCX
+6. **Cover letter** *(optional)* — `export_cover_letter` → a matching PDF or DOCX
 
 ## Tools
 
@@ -83,6 +84,7 @@ the three things a plain chat **can't** do:
 | `extract_keywords` | Deterministically pull the ranked skills/tools an ATS scans for. |
 | `ats_gap_check` | Compare a CV against the job keywords → match score (%) + the exact missing terms. |
 | `export_resume` | Render finished CV content (markdown or JSON) → a clean PDF or DOCX. Returns the file path. |
+| `export_cover_letter` | Render a finished cover letter → a matching PDF or DOCX. Optionally adds a letterhead (name + contact) from the master CV. Returns the file path. |
 
 ## Installation
 
@@ -154,11 +156,15 @@ Behind the scenes Claude runs:
 6. ats_gap_check(new_resume_text, keywords)      → { match_score: 85.0 }
 7. export_resume(content=<rewritten>, format="pdf")
                                                  → { path: "~/.resume-mcp/exports/…​.pdf" }
+8. export_cover_letter(content=<letter>, format="pdf")
+                                                 → { path: "~/.resume-mcp/exports/…​_cover_letter.pdf" }
 ```
 
 > **Claude:** Tailored your CV — keyword match went from **20% → 85%**. I added your
-> Docker/AWS and testing experience to match their stack. Exported here:
+> Docker/AWS and testing experience to match their stack, and drafted a matching
+> cover letter. Exported here:
 > `~/.resume-mcp/exports/Jane_Developer_….pdf`
+> `~/.resume-mcp/exports/Jane_Developer_…_cover_letter.pdf`
 
 ## Configuration
 
