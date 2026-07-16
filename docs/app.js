@@ -48,9 +48,11 @@ const script = [
   { t: "tool", d: 1200, html: `→ <b>extract_keywords()</b><br>["REST APIs", "GraphQL", "TypeScript", "Docker", "AWS", "Next.js", "CI/CD", "Jest"]` },
   { t: "tool", d: 1200, html: `→ <b>ats_gap_check()</b><br><span class="warn">match 20%</span> · missing: GraphQL, TypeScript, Docker, AWS, Jest…` },
   { t: "bot", d: 1600, html: `Your CV only hits <b>20%</b> of their keywords. You <em>do</em> have Docker, AWS and Jest experience buried in older bullets — let me surface those and rephrase to their stack.` },
-  { t: "tool", d: 1200, html: `→ <b>ats_gap_check()</b> (rewrite)<br><span class="ok">match 85% ✓</span>` },
+  { t: "bot", d: 2000, html: `<b>New tailored résumé — generated ✨</b><br>• Built <span class="ok">GraphQL</span> APIs in <span class="ok">TypeScript</span> on <span class="ok">Next.js</span><br>• Containerized services with <span class="ok">Docker</span>, shipped to <span class="ok">AWS</span> via <span class="ok">CI/CD</span><br>• Unit + integration testing with <span class="ok">Jest</span>` },
+  { t: "tool", d: 1200, html: `→ <b>ats_gap_check()</b> (re-score)<br><span class="ok">match 85% ✓</span>` },
   { t: "tool", d: 1100, html: `→ <b>export_resume(format="pdf")</b><br>~/.resume-mcp/exports/Nmaa_Hawary.pdf` },
-  { t: "bot", d: 1600, html: `Done. Keyword match went from <span class="warn">20%</span> → <span class="ok">85%</span>. I emphasized your Docker/AWS work and testing with Jest. Your tailored PDF is ready to send. 🎯` },
+  { t: "tool", d: 1100, html: `→ <b>export_cover_letter(format="pdf")</b><br>~/.resume-mcp/exports/Nmaa_Hawary_cover_letter.pdf` },
+  { t: "bot", d: 1600, html: `Done. Keyword match went from <span class="warn">20%</span> → <span class="ok">85%</span>. I emphasized your Docker/AWS work and testing with Jest, and drafted a matching cover letter. Both PDFs are ready to send. 🎯` },
 ];
 
 function addMsg(t, html) {

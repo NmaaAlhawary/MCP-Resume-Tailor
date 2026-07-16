@@ -134,3 +134,28 @@ def test_export_pdf_creates_file(srv):
 def test_export_empty_content_raises(srv):
     with pytest.raises(ValueError):
         srv.export_resume("", format="docx")
+
+
+# --------------------------------------------------------------------------- #
+# export_cover_letter
+# --------------------------------------------------------------------------- #
+
+def test_cover_letter_pdf_creates_file(srv):
+    out = srv.export_cover_letter("Dear Hiring Manager,\n\nI am excited to apply.", format="pdf")
+    assert os.path.exists(out["path"])
+    assert out["path"].endswith(".pdf")
+    with open(out["path"], "rb") as fh:
+        assert fh.read(5) == b"%PDF-"
+
+
+def test_cover_letter_uses_master_header(srv):
+    srv.save_master_resume({"contact": {"name": "Nmaa Hawary", "email": "n@x.io"}})
+    out = srv.export_cover_letter("Dear team, hello.", format="docx", include_header=True)
+    assert os.path.exists(out["path"])
+    # header (name + contact) + one paragraph = 3 blocks
+    assert out["blocks"] == 3
+
+
+def test_cover_letter_empty_content_raises(srv):
+    with pytest.raises(ValueError):
+        srv.export_cover_letter("", format="docx", include_header=False)

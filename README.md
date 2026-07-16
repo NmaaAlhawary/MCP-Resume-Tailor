@@ -95,7 +95,7 @@ source .venv/bin/activate          # fish: source .venv/bin/activate.fish
 pip install -r requirements.txt
 ```
 
-Smoke-test that all six tools register:
+Smoke-test that all seven tools register:
 
 ```bash
 python -c "import asyncio, server; print([t.name for t in asyncio.run(server.mcp.list_tools())])"
@@ -124,7 +124,7 @@ Add this to your `claude_desktop_config.json`
 }
 ```
 
-Restart Claude Desktop — the six tools appear under the tools menu.
+Restart Claude Desktop — the seven tools appear under the tools menu.
 
 ## Usage
 

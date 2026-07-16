@@ -657,5 +657,65 @@ def export_resume(
     return {"path": str(out), "format": format, "blocks": len(blocks)}
 
 
+@mcp.tool()
+def export_cover_letter(
+    content: str,
+    format: Literal["pdf", "docx"] = "docx",
+    filename: str = "",
+    include_header: bool = True,
+) -> dict[str, Any]:
+    """Render a finished cover letter to a clean, ATS-safe PDF or DOCX file.
+
+    The MCP does not write the letter — the client (Claude) writes it, tailored
+    to the job using the master résumé and the ats_gap_check results. This tool
+    just formats and saves it in the same single-column, real-text layout as the
+    résumé so the two documents match.
+
+    Pass `content` as the letter text (plain paragraphs, or markdown with
+    `#`/`##` headings and `- ` bullets). When `include_header` is true and a
+    master résumé is stored, the applicant's name + contact line are added at
+    the top so the letter's letterhead matches the CV.
+
+    Returns {path, format, blocks} with the saved file path.
+    """
+    blocks: list[tuple[str, str]] = []
+
+    if include_header:
+        try:
+            master = read_json(_store_path())
+        except (FileNotFoundError, ValueError):
+            master = {}
+        contact = master.get("contact", {}) if isinstance(master, dict) else {}
+        if contact.get("name"):
+            blocks.append(("h1", contact["name"]))
+        line = " | ".join(
+            str(contact[k])
+            for k in ("email", "phone", "location")
+            if contact.get(k)
+        )
+        if line:
+            blocks.append(("para", line))
+
+    blocks.extend(_blocks_from_content(content))
+    if not blocks:
+        raise ValueError("No content to export — pass the cover-letter text.")
+
+    if not filename:
+        name = next((t for k, t in blocks if k == "h1"), "cover_letter")
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        filename = f"{_safe_name(name)}_cover_letter_{stamp}"
+    filename = _safe_name(filename)
+
+    out = _export_dir() / f"{filename}.{format}"
+    if format == "docx":
+        _export_docx(blocks, out)
+    elif format == "pdf":
+        _export_pdf(blocks, out)
+    else:  # pragma: no cover - guarded by Literal
+        raise ValueError(f"Unsupported format '{format}'. Use 'pdf' or 'docx'.")
+
+    return {"path": str(out), "format": format, "blocks": len(blocks)}
+
+
 if __name__ == "__main__":
     mcp.run()
