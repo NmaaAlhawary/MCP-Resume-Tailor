@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
-<link rel="stylesheet" href="styles.css?v=10" />
+<link rel="stylesheet" href="styles.css?v=11" />
 </head>
 <body>
 
@@ -162,7 +162,7 @@
 <section id="flow" class="section">
   <div class="section-head reveal">
     <span class="kicker">How it works</span>
-    <h2>Load → analyze → <span class="grad">rewrite</span> → check → export</h2>
+    <h2>Load → analyze → <span class="grad">rewrite</span> → check → export → letter</h2>
     <p>The server does the deterministic parts. Claude does the writing.</p>
   </div>
   <div class="flow">
@@ -201,6 +201,13 @@
         <h4>Export</h4>
       </div>
       <p><code>export_resume</code> → a clean PDF or DOCX.</p>
+    </div>
+    <div class="step reveal" style="--d:.30s">
+      <div class="step-top">
+        <span class="step-n">6</span>
+        <h4>Letter</h4>
+      </div>
+      <p><code>export_cover_letter</code> → a matching cover letter.</p>
     </div>
   </div>
 </section>
@@ -268,6 +275,6 @@ python server.py</code></pre>
   </span>
 </footer>
 
-<script src="app.js?v=10"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>
