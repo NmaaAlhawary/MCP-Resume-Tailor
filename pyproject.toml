@@ -1,6 +1,6 @@
 [project]
 name = "resume-tailor-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server that helps an AI client tailor a CV to a job: persistent master resume, deterministic ATS gap check, and ATS-safe PDF/DOCX export."
 readme = "README.md"
 requires-python = ">=3.11"
