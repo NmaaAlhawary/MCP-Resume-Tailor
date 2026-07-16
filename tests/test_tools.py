@@ -93,6 +93,31 @@ def test_ssrf_tool_returns_clean_message(srv):
     assert "paste" in out["message"].lower()
 
 
+def test_fetch_success_strips_boilerplate(srv, monkeypatch):
+    # With a mocked fetch, the HTML→text path should drop scripts/nav/footer
+    # and return clean, readable job text.
+    html = """
+    <html><head><style>.x{color:red}</style></head><body>
+      <nav>Home About Careers Login</nav>
+      <h1>Senior Backend Engineer</h1>
+      <p>We are hiring a backend engineer. You will design and maintain
+         RESTful APIs in Python and FastAPI, deploy services with Docker on
+         AWS, and optimize PostgreSQL queries for high-traffic workloads.
+         Experience with CI/CD pipelines and Kubernetes is required.</p>
+      <script>trackAnalytics('pageview')</script>
+      <footer>© 2026 Example Corp. All rights reserved.</footer>
+    </body></html>
+    """
+    monkeypatch.setattr(srv, "fetch_url", lambda url: html)
+    out = srv.fetch_job_posting(url="https://example.com/careers/backend")
+    assert out["source"] == "url"
+    assert "Senior Backend Engineer" in out["text"]
+    assert "FastAPI" in out["text"]
+    assert "trackAnalytics" not in out["text"]  # <script> stripped
+    assert "Careers Login" not in out["text"]   # <nav> stripped
+    assert out["char_count"] > 200
+
+
 # --------------------------------------------------------------------------- #
 # extract_keywords
 # --------------------------------------------------------------------------- #
